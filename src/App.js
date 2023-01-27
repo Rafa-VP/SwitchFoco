@@ -21,12 +21,10 @@ function App() {
     xhr.send()
   }
 
-  const { isLoading, isFetching } = useQuery({
+  const { isLoading } = useQuery({
     queryKey: ["deta"],
     queryFn: async () => await (await deta.get("/get-switch")).data,
     onSuccess: (res) => setState(res),
-    refetchInterval: 5000,
-    refetchIntervalInBackground: true,
   })
 
   if (isLoading) return <Loader />
@@ -42,9 +40,6 @@ function App() {
         color={"cyan"}
         onChange={(e) => toggleCheckbox(e.target)}
         checked={state === "on" ? true : false}
-        disabled={isFetching}
-        label={isFetching && "Refreshing..."}
-        labelPosition={"right"}
       />
     </div>
   )
