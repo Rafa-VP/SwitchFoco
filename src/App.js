@@ -8,15 +8,14 @@ import IconSun from "./icons/IconSun"
 
 function App() {
   // ||========================== STATES ===========================||
-  const [state, setState] = useState("off")
+  const [state, setState] = useState({})
   const [isButtonDisabled, setIsButtonDisabled] = useState(false)
-  const [response, setResponse] = useState("{ }")
 
   // ||========================== GET RELAY STATE ===========================||
   const { isInitialLoading } = useQuery({
     queryKey: ["deta"],
     queryFn: async () => await (await deta.get("/get-switch")).data,
-    onSuccess: (res) => setState(res),
+    onSuccess: (res) => setState({ status: res, global_state: res }),
   })
 
   // ||========================== HANDLE CHANGE STATE ===========================||
@@ -25,10 +24,8 @@ function App() {
       setIsButtonDisabled(true)
       var xhr = new XMLHttpRequest()
       if (element.checked) {
-        setState("on")
         xhr.open("GET", "https://p9lrcf.deta.dev/switch-foco?relay=on", true)
       } else {
-        setState("off")
         xhr.open("GET", "https://p9lrcf.deta.dev/switch-foco?relay=off", true)
       }
       xhr.send()
@@ -37,8 +34,7 @@ function App() {
       console.error({ error: err })
     } finally {
       xhr.onload = () => {
-        setResponse(xhr.response)
-        setState(JSON.parse(xhr.response).global_state)
+        setState(JSON.parse(xhr.response))
       }
     }
   }
@@ -57,11 +53,11 @@ function App() {
         offLabel={!isButtonDisabled ? <IconMoonStarts /> : "Loading..."}
         color={"cyan"}
         onChange={(e) => toggleCheckbox(e.target)}
-        checked={state === "on" ? true : false}
+        checked={state.global_state === "on" ? true : false}
         disabled={isButtonDisabled}
       />
       <Space h={"xl"} />
-      <JsonInput placeholder={response} disabled={true} />
+      <JsonInput placeholder={JSON.stringify(state)} disabled={true} />
     </div>
   )
 }
