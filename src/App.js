@@ -1,33 +1,36 @@
-import logo from './logo.svg';
-import './App.css';
+import { Group, Space, Switch, Title, useMantineTheme } from "@mantine/core"
+import { useState } from "react"
+import "./App.css"
+import IconMoonStarts from "./icons/IconMoonStarts"
+import IconSun from "./icons/IconSun"
 
 function App() {
+	const theme = useMantineTheme()
+	const [timelapse, setTimeLapse] = useState(10)
 
-function toggleCheckbox(element) { 
-var xhr = new XMLHttpRequest(); 
-if(element.checked){ 
-xhr.open("GET", "/?relay=on", true); 
-}
-else { 
-xhr.open("GET", "/?relay=off", true); 
-} 
-xhr.send(); 
-}
+  function toggleCheckbox(element) {
+    var xhr = new XMLHttpRequest()
+    if (element.checked) {
+      xhr.open("GET", "https://p9lrcf.deta.dev/switch-foco?relay=on", true)
+    } else {
+      xhr.open("GET", "https://p9lrcf.deta.dev/switch-foco?relay=off", true)
+    }
+    xhr.send()
+  }
 
   return (
-    <html>
-	<head>
-	<meta name="viewport" content="width=device-width, initial-scale=1" />
-	</head>
-	<body>
-  	<h1>ESP Relay Web Server</h1>
-	<label class="switch"><input type="checkbox" onChange={(e) => toggleCheckbox(e.target.value)} />
-<span class="slider">
-  </span>
-</label>
-</body>
-</html>
-  );
+    <div>
+      <Title color={"cyan"}>Relay Switch</Title>
+      <Space h={"xl"} />
+      <Switch
+        size={"xl"}
+        onLabel={<IconSun />}
+        offLabel={<IconMoonStarts />}
+        color={"cyan"}
+        onChange={(e) => toggleCheckbox(e.target)}
+      />
+    </div>
+  )
 }
 
-export default App;
+export default App
