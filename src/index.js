@@ -24,7 +24,7 @@ root.render(
           width: "100%",
           textAlign: "center",
           opacity: "30%",
-          backgroundColor: "Background",
+          backgroundColor: "#161616",
         }}
       >
         <p className="cp-text">
