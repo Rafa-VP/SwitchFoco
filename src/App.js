@@ -15,10 +15,11 @@ function App() {
   const [isButtonDisabled, setIsButtonDisabled] = useState(false)
 
   // ||========================== GET RELAY STATE ===========================||
-  const { isInitialLoading, isLoading } = useQuery({
+  const { isInitialLoading, isFetching } = useQuery({
     queryKey: ["deta"],
     queryFn: async () => await (await deta.get("/get-switch")).data,
     onSuccess: (res) => setState({ status: res, global_state: res }),
+    networkMode: "online",
     keepPreviousData: false,
   })
 
@@ -59,7 +60,7 @@ function App() {
         color={"cyan"}
         onChange={(e) => toggleCheckbox(e.target)}
         checked={state.global_state === "on" ? true : false}
-        disabled={isButtonDisabled || isLoading}
+        disabled={isButtonDisabled || isFetching}
       />
       <Space h={"xl"} />
       <JsonInput placeholder={JSON.stringify(state)} disabled={true} />
