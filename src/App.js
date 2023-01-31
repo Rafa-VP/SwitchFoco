@@ -1,6 +1,7 @@
 import { JsonInput, Loader, Space, Switch, Title } from "@mantine/core"
 import { useQuery } from "@tanstack/react-query"
 import { useState } from "react"
+import { queryClient } from "."
 import deta from "./api/deta"
 import "./App.css"
 import IconMoonStarts from "./icons/IconMoonStarts"
@@ -16,6 +17,7 @@ function App() {
     queryKey: ["deta"],
     queryFn: async () => await (await deta.get("/get-switch")).data,
     onSuccess: (res) => setState({ status: res, global_state: res }),
+    keepPreviousData: false,
   })
 
   // ||========================== HANDLE CHANGE STATE ===========================||
@@ -35,6 +37,7 @@ function App() {
     } finally {
       xhr.onload = () => {
         setState(JSON.parse(xhr.response))
+        queryClient.invalidateQueries({ queryKey: "deta" })
       }
     }
   }
