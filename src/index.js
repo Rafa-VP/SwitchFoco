@@ -14,6 +14,23 @@ root.render(
     <QueryClientProvider client={queryClient}>
       <App />
       <ReactQueryDevtools position="bottom-right" initialIsOpen={false} />
+      <div
+        style={{
+          position: "absolute",
+          bottom: "0rem",
+          color: "#15aabf",
+          fontWeight: "bold",
+          fontFamily: "cursive",
+          width: "100%",
+          textAlign: "center",
+          opacity: "30%",
+          backgroundColor: "Background",
+        }}
+      >
+        <p className="cp-text">
+          © Copyright 2023 Rafael VP. All Rights Reserved
+        </p>
+      </div>
     </QueryClientProvider>
   </React.StrictMode>
 )

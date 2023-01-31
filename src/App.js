@@ -8,6 +8,8 @@ import IconMoonStarts from "./icons/IconMoonStarts"
 import IconSun from "./icons/IconSun"
 
 function App() {
+  document.title = "Switch Foco"
+
   // ||========================== STATES ===========================||
   const [state, setState] = useState({})
   const [isButtonDisabled, setIsButtonDisabled] = useState(false)
